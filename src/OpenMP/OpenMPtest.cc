@@ -2,9 +2,10 @@
 #include "OpenMP.h"
 #include <stdio.h>
 
-void testOpenMP() {
-
-  real a[100], b[100], sum;
+void reduction() {
+  vec a(100);
+  vec b(100);
+  real sum;
 
   /* Some initializations */
   loop n = 100;
@@ -17,10 +18,17 @@ void testOpenMP() {
     sum = sum + (a[i] * b[i]);
 
   printf("Sum = %f\n", sum);
+}
 
+void testWorking() {
 #pragma omp parallel
   printf("Hello from thread %d, nthreads %d\n", omp_get_thread_num(),
          omp_get_num_threads());
+}
+
+void testOpenMP() {
+  testWorking();
+  reduction();
 
   return;
 }
